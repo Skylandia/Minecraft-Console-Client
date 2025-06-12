@@ -82,7 +82,13 @@ namespace MinecraftClient.Protocol.Message
         /// <returns>Returns the translated text</returns>
         public static string ParseText(string json, List<string>? links = null)
         {
-            return JSONData2String(Json.ParseJson(json), "", links);
+            try
+            {
+                if (JsonDocument.Parse(json) != null)
+                    return JSONData2String(Json.ParseJson(json), "", links);
+            }
+            catch {}
+            return json;
         }
 
         public static string ParseText(Dictionary<string, object> nbt)
